@@ -1,56 +1,54 @@
-const {createHmac, randomBytes } = require('node:crypto');
-const mongoose=require("mongoose");
+const { createHmac, randomBytes } = require('crypto');
+const mongoose = require('mongoose');
 
-
-const userSchema=new mongoose.Schema({
-    Firstname:{
-        type:String,
-        required:true
+const userSchema = new mongoose.Schema({
+    FirstName: {
+        type: String,
+        required: true
     },
-    LastName:{
-        type:String,
-    },
-    EmailId:
-    {
-        type:String,
-        required:true,
-        unique:true
-    },
-    salt:{
+    LastName: {
         type: String,
     },
-    password:{
-        type:String,
-        required:true
+    EmailId: {
+        type: String,
+        required: true,
+        unique: true
     },
-    profileUrl:{
-        type:String,
-        default: '/public/images.png'
+    salt: {
+        type: String,
     },
-    role:{
-        type:String,
-        enum:["User","Admin"],
-        default:'User'
+    password: {
+        type: String,
+        required: true
+    },
+    profileUrl: {
+        type: String,
+        default: '../public/images.png'
+    },
+    role: {
+        type: String,
+        enum: ["User", "Admin"],
+        default: 'User'
+    }
+}, { timestamps: true });
+
+userSchema.pre('save', function(next) {
+    const user = this;
+    if (!user.isModified('password')) {
+        return next();
     }
 
-},{timestamps: true});
-
-userSchema.pre('save',function(next){
-    const user=this;
-    if (!user.isModified()){
-        return;
-    }
-
-    const salt=randomBytes(16).toString();
+    const salt = randomBytes(16).toString('hex'); // Ensure salt is encoded in hex
     const hmac = createHmac('sha256', salt)
-    .update(user.password)
-    .digest('hex');
+        .update(user.password)
+        .digest('hex');
 
-    this.salt=salt;
-    this.password=hmac;
+    user.salt = salt;
+    user.password = hmac;
 
-})
+    next(); // Call next() to proceed with saving the user
+});
 
-const User=new mongoose.model("users",userSchema);
+const User = mongoose.model('User', userSchema);
 
-module.exports=User;
+module.exports = User;
