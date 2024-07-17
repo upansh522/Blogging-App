@@ -18,7 +18,7 @@ async function handleSignUp(req, res) {
 
         await newUser.save();
 
-        console.log(newUser);
+        req.user=newUser;
         return res.redirect("/haveblog/homepage");
     } catch (error) {
         console.log("Error found:", error);
@@ -26,4 +26,29 @@ async function handleSignUp(req, res) {
     }
 }
 
-module.exports = { handleSignUp };
+async function handleLogin(req, res) {
+    const body = req.body;
+    const EmailId = body.EmailId;
+    const password = body.password;
+
+    console.log("Received login request for email:", EmailId);  // Debug log
+    console.log("Request body:", body);  // Debug log
+
+    try {
+        const loginUser = await User.matchPassword(EmailId.toLowerCase(), password);
+
+        if (loginUser.error) {
+            console.log("Login error:", loginUser.error);  // Debug log
+            return res.status(400).send(loginUser.error);
+        }
+
+        console.log("Login successful for user:", EmailId);  // Debug log
+        return res.status(200).redirect("/haveblog/homepage");
+
+    } catch (error) {
+        console.error("An error occurred during login:", error);  // Debug log
+        return res.status(500).send("An error occurred during login.");
+    }
+}
+
+module.exports = { handleSignUp,handleLogin };

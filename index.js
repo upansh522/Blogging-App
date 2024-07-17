@@ -5,7 +5,7 @@ const staticRoute=require('./routes/staticRoute');
 const userRoute=require('./routes/user');
 const path=require("path");
 const app = express();
-const PORT= 8000;
+const PORT= 8080;
 
 
 app.use(express.json());
