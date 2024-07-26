@@ -1,5 +1,6 @@
 const { createHmac, randomBytes } = require('crypto');
 const mongoose = require('mongoose');
+const { createToken } = require('../services/user');
 
 const userSchema = new mongoose.Schema({
     FirstName: {
@@ -23,7 +24,7 @@ const userSchema = new mongoose.Schema({
     },
     profileUrl: {
         type: String,
-        default: '../public/images.png'
+        default: '/public/images.png'
     },
     role: {
         type: String,
@@ -53,14 +54,11 @@ userSchema.pre('save', function(next) {
 });
 
 
-userSchema.static("matchPassword", async function(emailId, password) {
-    console.log("Searching for user with email:", emailId);  // Debug log
-
-    const newUser = await this.findOne({ EmailId: emailId }); // Change emailId to EmailId
+userSchema.static("matchPasswordAndCreateToken", async function(emailId, password) {
+    const newUser = await this.findOne({ EmailId: emailId });
 
     if (!newUser) {
-        console.log("No user found with email:", emailId);  // Debug log
-        return { error: "No User Found" };
+        return { error: "No user found with this email." };
     }
 
     const newSalt = newUser.salt;
@@ -70,14 +68,16 @@ userSchema.static("matchPassword", async function(emailId, password) {
         .update(password)
         .digest('hex');
 
-    if (OriginalHashedPassword === newHashedPassword) {
-        console.log("Password match successful for user:", emailId);  // Debug log
-        return { ...newUser.toObject(), password: undefined, salt: undefined };
+    if (OriginalHashedPassword !== newHashedPassword) {
+        return { error: "Incorrect password" };
     }
-
-    console.log("Password mismatch for user:", emailId);  // Debug log
-    return { error: "Incorrect password" };
+    else if (OriginalHashedPassword===newHashedPassword)
+    {        
+        const token = createToken(newUser);
+        return { token };
+    }
 });
+
 
 const User = mongoose.model('User', userSchema);
 

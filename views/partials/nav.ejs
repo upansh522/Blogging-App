@@ -1,0 +1,26 @@
+<nav class="navbar navbar-expand-lg bg-black bg-gradient">
+  <div class="container-fluid">
+      <a class="navbar-brand text-light" href="#">Blogify</a>
+      <button class="navbar-toggler text-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon text-light"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+              <a class="nav-link active text-light" aria-current="page" href="#">Home</a>
+              <a class="nav-link text-light" href="#">Create Blog</a>
+              <a class="nav-link text-light" href="#">Subscribe</a>
+              <% if (UserPayload) { %>
+                  <a class="nav-link text-light " href="#"><%= UserPayload.firstName %></a>
+              <% } else { %>
+                  <a class="nav-link text-light" href="/haveblog/signin">Sign In</a>
+              <% } %>
+          </div>
+          <% if (UserPayload) { %>
+          <div class="ms-auto">
+              <a class="nav-link text-light" href="/backend/logout" title="Logout">Logout
+              </a>
+          </div>
+          <% } %>
+      </div>
+  </div>
+</nav>
