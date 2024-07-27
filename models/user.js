@@ -73,8 +73,9 @@ userSchema.static("matchPasswordAndCreateToken", async function(emailId, passwor
     }
     else if (OriginalHashedPassword===newHashedPassword)
     {        
-        const token = createToken(newUser);
-        return { token };
+        const token = createToken(newUser);    
+
+        return {token,newUser};
     }
 });
 

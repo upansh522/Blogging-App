@@ -10,10 +10,13 @@ routes.get('/signin',(req,res)=>{
 }).get('/signup',(req,res)=>{
     return res.render('signup')
 }).get('/homepage',(req,res)=>{
-    const tokenExtract=req.cookies.token;
-    const UserPayload=validateToken(tokenExtract,configDotenv.SECERET_KEY);
-    return res.render('home',
-        {UserPayload}
+    // const tokenExtract=req.cookies.token;
+    // const UserPayload=validateToken(tokenExtract,configDotenv.SECERET_KEY);
+    // req.user=UserPayload;
+    return res.render('home');
+}).get('/createBlog',(req,res)=>{
+    return res.render('createBlog',
+        {UserPayload: req.user}
     );
 })
 

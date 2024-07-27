@@ -7,15 +7,15 @@
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav">
               <a class="nav-link active text-light" aria-current="page" href="#">Home</a>
-              <a class="nav-link text-light" href="#">Create Blog</a>
+              <a class="nav-link text-light" href="/haveblog/createBlog">Create Blog</a>
               <a class="nav-link text-light" href="#">Subscribe</a>
-              <% if (UserPayload) { %>
-                  <a class="nav-link text-light " href="#"><%= UserPayload.firstName %></a>
+              <% if (locals) { %>
+                  <a class="nav-link text-light " href="#"><%= locals.FirstName %></a>
               <% } else { %>
                   <a class="nav-link text-light" href="/haveblog/signin">Sign In</a>
               <% } %>
           </div>
-          <% if (UserPayload) { %>
+          <% if (locals) { %>
           <div class="ms-auto">
               <a class="nav-link text-light" href="/backend/logout" title="Logout">Logout
               </a>

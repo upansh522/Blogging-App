@@ -29,14 +29,18 @@ async function handleSignUp(req, res) {
 async function handleLogin(req, res) {
     const { EmailId, password } = req.body;
     try {
-        const { token, error } = await User.matchPasswordAndCreateToken(EmailId.toLowerCase(), password);
+        const { token,newUser, error } = await User.matchPasswordAndCreateToken(EmailId.toLowerCase(), password);
 
         if (error) {
             console.log(error);
             return res.status(400).redirect("/haveblog/signin");
              // Use query parameters to pass error
         }
-
+        
+        req.user=newUser;
+        // res.localStorage.setItem(newUser);
+        res.locals.user = req.user;
+        console.log(req.user);
         return res.cookie("token", token).status(200).redirect("/haveblog/homepage");
 
     } catch (error) {
@@ -45,7 +49,8 @@ async function handleLogin(req, res) {
     }
 }
 async function handleLogout(req,res){
-    res.clearCookie('token'); // Clear the token cookie
+    res.clearCookie('token');
+    localStorage.clear(); 
     res.redirect('/haveblog/signin');
 }
 
