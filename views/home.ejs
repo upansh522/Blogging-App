@@ -5,15 +5,20 @@
     <title>Home</title>
 </head>
 <body>
-    <%- include('./partials/nav'); %>
-    <%- include('./partials/script'); %>
-    <div class="container-fluid p-5 d-flex flex-d-col gap-1 flex-wrap">
-        <%- include('./partials/card') %>
-        <%- include('./partials/card') %>
-      </div>
-      <div class="p-5">
-    <%- include('./partials/createForm') %>  
-</div>
     
+    <%- include('./partials/nav'); %>  
+    <div class="grid grid-cols-2">
+        <div> 
+    <%- include('./partials/card') %>
+</div>
+<div class="pt-5">
+    <img class="flex items-center py-3 mt-3 mr-3 pr-3"  src="/Blog Banner2.png">
+    <span class="m-2"></span>
+    <img class="flex items-center py-3 mt-3 mr-3 pr-3"  src="/Blog Banner3.png">
+    
+</div>
+</div>
+    <%- include('./partials/footer') %>
+    <%- include('./partials/script'); %>    
 </body>
 </html>

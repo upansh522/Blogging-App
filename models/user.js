@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
     },
     profileUrl: {
         type: String,
-        default: '/public/images.png'
+        default: '/images.png'
     },
     role: {
         type: String,
@@ -75,7 +75,7 @@ userSchema.static("matchPasswordAndCreateToken", async function(emailId, passwor
     {        
         const token = createToken(newUser);    
 
-        return {token,newUser};
+        return {token};
     }
 });
 

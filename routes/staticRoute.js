@@ -1,23 +1,16 @@
-const express=require("express");
-const { get } = require("mongoose");
-const {createToken,validateToken}= require("../services/user");
-const { configDotenv } = require("dotenv");
+const express = require("express");
+const routes = express.Router();
 
-const routes=express.Router();
-
-routes.get('/signin',(req,res)=>{
+routes.get('/signin', (req, res) => {
     return res.render('signin');
-}).get('/signup',(req,res)=>{
-    return res.render('signup')
-}).get('/homepage',(req,res)=>{
-    // const tokenExtract=req.cookies.token;
-    // const UserPayload=validateToken(tokenExtract,configDotenv.SECERET_KEY);
-    // req.user=UserPayload;
-    return res.render('home');
-}).get('/createBlog',(req,res)=>{
-    return res.render('createBlog',
-        {UserPayload: req.user}
-    );
+}).get('/signup', (req, res) => {
+    return res.render('signup');
+}).get('/homepage', (req, res) => {
+    return res.render('home', { UserInfo: res.locals.UserInfo });
+}).get('/createBlog', (req, res) => {
+    return res.render('createBlog', { UserInfo: res.locals.UserInfo });
+}).get('/premium',(req,res)=>{
+    return res.render('premium',{ UserInfo: res.locals.UserInfo });
 })
 
-module.exports=routes;
+module.exports = routes;

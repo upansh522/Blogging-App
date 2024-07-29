@@ -1,5 +1,7 @@
 const User = require("../models/user");
 const { createToken } = require("../services/user");
+const LocalStorage = require('node-localstorage').LocalStorage;
+const localStorage = new LocalStorage('./scratch');
 
 async function handleSignUp(req, res) {
     const body = req.body;
@@ -19,38 +21,36 @@ async function handleSignUp(req, res) {
         await newUser.save();
 
         req.user = newUser;
-        const Token=createToken(newUser);
-        return res.cookie("token",Token).redirect("/haveblog/homepage");
+        const token = createToken(newUser);
+        res.cookie("token", token);
+        return res.redirect("/haveblog/homepage");
     } catch (error) {
         console.log("Error found:", error);
         return res.status(500).send("Internal Server Error");
     }
 }
+
 async function handleLogin(req, res) {
     const { EmailId, password } = req.body;
     try {
-        const { token,newUser, error } = await User.matchPasswordAndCreateToken(EmailId.toLowerCase(), password);
+        const { token, error } = await User.matchPasswordAndCreateToken(EmailId.toLowerCase(), password);
 
         if (error) {
             console.log(error);
             return res.status(400).redirect("/haveblog/signin");
-             // Use query parameters to pass error
         }
-        
-        req.user=newUser;
-        // res.localStorage.setItem(newUser);
-        res.locals.user = req.user;
-        console.log(req.user);
-        return res.cookie("token", token).status(200).redirect("/haveblog/homepage");
+
+        res.cookie("token", token);
+        return res.status(200).redirect("/haveblog/homepage");
 
     } catch (error) {
         console.error("An error occurred during login:", error);
         return res.status(500).redirect("/haveblog/signin");
     }
 }
-async function handleLogout(req,res){
+
+async function handleLogout(req, res) {
     res.clearCookie('token');
-    localStorage.clear(); 
     res.redirect('/haveblog/signin');
 }
 

@@ -1,21 +1,22 @@
-const { configDotenv } = require("dotenv");
 const { validateToken } = require("../services/user");
 
-function authenticateToken(req, res, next) {
-    const token = req.cookies.token; // Assuming the token is stored in a cookie named 'token'
+function checkAuthentication(cookieName) {
+    return (req, res, next) => {
+        const tokenCookieValue = req.cookies[cookieName];
+        if (!tokenCookieValue) {
+            return next();
+        }
 
-    if (!token) {
-        return res.status(401).json({ message: 'No token provided' });
-    }
-
-    const user = validateToken(token,process.env.SECERET_KEY);
-
-    if (!user) {
-        return res.status(401).json({ message: 'Invalid or expired token' });
-    }
-
-    req.user = user; // Attach the user payload to the request object
-    next();
+        try {
+            const UserPayload = validateToken(tokenCookieValue);
+            req.user = UserPayload;
+            res.locals.UserInfo = UserPayload; // Set UserInfo in locals
+        } catch (error) {
+            console.error('Error validating token:', error);
+            req.user = null;
+        }
+        next();
+    };
 }
 
-module.exports={authenticateToken};
+module.exports = checkAuthentication;
