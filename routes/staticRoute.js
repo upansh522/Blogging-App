@@ -11,6 +11,8 @@ routes.get('/signin', (req, res) => {
     return res.render('createBlog', { UserInfo: res.locals.UserInfo });
 }).get('/premium',(req,res)=>{
     return res.render('premium',{ UserInfo: res.locals.UserInfo });
+}).get('/myBlog',(req,res)=>{
+    return res.render('myBlog',{ UserInfo: res.locals.UserInfo });
 })
 
 module.exports = routes;

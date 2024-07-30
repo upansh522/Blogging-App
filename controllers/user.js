@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const blogModel =require('../models/blog');
 const { createToken } = require("../services/user");
 const LocalStorage = require('node-localstorage').LocalStorage;
 const localStorage = new LocalStorage('./scratch');
@@ -54,4 +55,29 @@ async function handleLogout(req, res) {
     res.redirect('/haveblog/signin');
 }
 
-module.exports = { handleSignUp, handleLogin, handleLogout };
+async function handleCreateBlog(req,res){
+    const file=req.file;
+    const body=req.body;
+    if (!body)
+    {
+        console.log('body not found');
+        return res.redirect("/haveblog/createBlog");
+    }
+
+    try {
+        const newBlog= await blogModel.create({
+            domain: body.domain,
+            thumbnail: body.thumbnail,
+            content: body.content,
+            createdBy: req.user._id
+        });
+
+        return res.status(201).redirect('/haveblog/homepage');
+        
+    } catch (error) {
+        console.log('error occur due to ',error);
+        return res.redirect("/haveblog/createBlog");
+    }
+}
+
+module.exports = { handleSignUp, handleLogin, handleLogout, handleCreateBlog };
