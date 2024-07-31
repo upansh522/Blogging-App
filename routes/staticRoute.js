@@ -6,8 +6,12 @@ routes.get('/signin', (req, res) => {
     return res.render('signin');
 }).get('/signup', (req, res) => {
     return res.render('signup');
-}).get('/homepage', (req, res) => {
-    return res.render('home', { UserInfo: res.locals.UserInfo });
+}).get('/homepage', async (req, res) => {
+    const userId=res.locals.UserInfo._id;
+    const articles=await blogModel.find({createdBy:userId}).limit(2);
+    return res.render('home', { UserInfo: res.locals.UserInfo,
+        articles:articles
+     });
 }).get('/createBlog', (req, res) => {
     return res.render('createBlog', { UserInfo: res.locals.UserInfo });
 }).get('/premium',(req,res)=>{
