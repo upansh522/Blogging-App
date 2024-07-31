@@ -18,6 +18,7 @@ app.use(checkAuthentication("token"));
 app.set('view engine', 'ejs');
 app.set('views', path.resolve('./views'));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'uploads')));
 
 mongoDbConnect('mongodb://127.0.0.1:27017/BlogApp').then(() => {
     console.log('mongoDbConnected');

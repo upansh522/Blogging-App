@@ -69,9 +69,7 @@ async function handleCreateBlog(req, res) {
         
         let coverImagePath;
         if (file) {
-            const myArray = file.path.split("\\"); 
-            const filename = myArray[myArray.length - 1]; 
-            coverImagePath = `${myArray.join('/').replace(`/${filename}`, '')}/${filename}`; 
+            coverImagePath = file.filename; 
         }
 
         const newBlogData = {
