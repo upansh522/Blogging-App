@@ -26,7 +26,7 @@ const blogSchema= new mongoose.Schema({
         default:'Blog Banner.png'
     }
 
-},{Timestamp : true});
+},{timestamps : true});
 
 const blogModel= mongoose.model('blogModel',blogSchema);
 

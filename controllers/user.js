@@ -55,27 +55,41 @@ async function handleLogout(req, res) {
     res.redirect('/haveblog/signin');
 }
 
-async function handleCreateBlog(req,res){
-    const file=req.file;
-    const body=req.body;
-    if (!body)
-    {
+async function handleCreateBlog(req, res) {
+    const file = req.file;
+    const body = req.body;
+    if (!body) {
         console.log('body not found');
         return res.redirect("/haveblog/createBlog");
     }
 
     try {
-        const newBlog= await blogModel.create({
+        console.log(body);
+        console.log(file);
+        
+        let coverImagePath;
+        if (file) {
+            const myArray = file.path.split("\\"); 
+            const filename = myArray[myArray.length - 1]; 
+            coverImagePath = `${myArray.join('/').replace(`/${filename}`, '')}/${filename}`; 
+        }
+
+        const newBlogData = {
             domain: body.domain,
             thumbnail: body.thumbnail,
             content: body.content,
-            createdBy: req.user._id
-        });
+            createdBy: req.user._id,
+        };
+
+        if (coverImagePath) {
+            newBlogData.coverImage = coverImagePath;
+        }
+
+        await blogModel.create(newBlogData);
 
         return res.status(201).redirect('/haveblog/homepage');
-        
     } catch (error) {
-        console.log('error occur due to ',error);
+        console.log('error occur due to ', error);
         return res.redirect("/haveblog/createBlog");
     }
 }
