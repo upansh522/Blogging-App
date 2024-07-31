@@ -27,7 +27,6 @@
               <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Following</a>
               <a href="/haveblog/premium" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Premiuim</a>
               <% if (locals.UserInfo) { %>
-                <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"><%= UserInfo.firstName %> </a>
               <% } else { %>
                 <a href="/haveblog/signin" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Sign In</a>
               <% } %>
@@ -51,7 +50,6 @@
         <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Following</a>
         <a href="/haveblog/premium" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Premium</a>
         <% if (locals.UserInfo) { %>
-          <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"><%= UserInfo.firstName %></a>
           <a href="/backend/logout" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white" title="Logout">Logout</a>
         <% } else { %>
           <a href="/haveblog/signin" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Sign In</a>
