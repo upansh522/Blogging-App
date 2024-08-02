@@ -7,7 +7,7 @@ routes.get('/signin', (req, res) => {
 }).get('/signup', (req, res) => {
     return res.render('signup');
 }).get('/homepage', async (req, res) => {
-    const userId=res.locals.UserInfo._id;
+    const userId=res.locals.UserInfo
     const articles=await blogModel.find({createdBy:userId}).limit(2);
     return res.render('home', { UserInfo: res.locals.UserInfo,
         articles:articles
@@ -17,9 +17,12 @@ routes.get('/signin', (req, res) => {
 }).get('/premium',(req,res)=>{
     return res.render('premium',{ UserInfo: res.locals.UserInfo });
 }).get('/myBlog',async (req,res)=>{
+   
+    return res.render('myBlog');
+}).get('/dashboard',async (req,res)=>{
     const userId=res.locals.UserInfo._id;
     const articles=await blogModel.find({createdBy:userId});
-    return res.render('myBlog',{ UserInfo: res.locals.UserInfo,
+    return res.render('dashboard',{ UserInfo: res.locals.UserInfo,
         articles:articles
      });
 })
