@@ -8,10 +8,11 @@ function createToken(user)
         _id: user._id,
         firstName: user.FirstName,
         lastName: user.LastName,
+        profileUrl: user.profileUrl,
         role:user.role
     }
 
-    const token=jwt.sign(payload,Secret_key,{ expiresIn: '1h' });
+    const token=jwt.sign(payload,Secret_key);   
     return token;
 }
 

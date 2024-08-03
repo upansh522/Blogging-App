@@ -1,6 +1,7 @@
 const { createHmac, randomBytes } = require('crypto');
 const mongoose = require('mongoose');
 const { createToken } = require('../services/user');
+const { type } = require('os');
 
 const userSchema = new mongoose.Schema({
     FirstName: {
@@ -24,13 +25,19 @@ const userSchema = new mongoose.Schema({
     },
     profileUrl: {
         type: String,
-        default: '/images.png'
+        default: 'images.png'
     },
     role: {
         type: String,
         enum: ["User", "Admin"],
         default: 'User'
-    }
+    }, 
+    followers: [
+        { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+    ],
+    following: [
+        { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+    ]
 }, { timestamps: true });
 
 userSchema.pre('save', function(next) {
