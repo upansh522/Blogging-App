@@ -22,9 +22,9 @@
               <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
               <a href="/haveblog/homepage" class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white" aria-current="page">Home</a>
               <a href="/haveblog/createBlog" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Create Blog</a>
-              <a href="/haveblog/dashboard" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Dashboard</a>
               <a href="/haveblog/premium" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Premiuim</a>
               <% if (locals.UserInfo) { %>
+                <a href="/haveblog/dashboard/<%= UserInfo._id %>" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Dashboard</a>
               <% } else { %>
                 <a href="/haveblog/signin" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Sign In</a>
               <% } %>
@@ -50,7 +50,7 @@
       <div class="space-y-1 px-2 pb-3 pt-2">
         <a href="/haveblog/homepage" class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white" aria-current="page">Home</a>
         <a href="/haveblog/createBlog" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Create Blog</a>
-        <a href="/haveblog/dashboard" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Dashboard</a>
+        <a href="/haveblog/dashboard/<%= UserInfo._id %>" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Dashboard</a>
         <a href="/haveblog/premium" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Premium</a>
         <% if (locals.UserInfo) { %>
           <a href="/backend/logout">
